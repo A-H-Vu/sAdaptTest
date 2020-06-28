@@ -1,0 +1,110 @@
+Changes:
+Redundency in 'Begin Experiment' code section across the trial cursor codes. Consolidated into 1 code component in instruction 1.
+
+taskVer would be better as an int, makes it easier to add more task combinations in the future
+
+targetAngles reduced to a 2x2 list, determined in instruction1
+reasoning: easy to change the angles i.e. 1 place instead of every other value in the list
+
+Setting the Main tasks in a function
+reasoning: avoid repeating code
+
+trial 2
+Moved win.mouseVisible = False from 'Begin Experiment' to 'Begin Routine'
+
+put the decision code into functions
+
+trial2CursorCode Begin Experiment:
+NOTE: 'global' keyword is not automatically converted into JS.
+If it gets overwritten, here is the JS code
+ang = null;
+rtd = null;
+function setAbruptMainTask() {
+    ang = (rotation[0] * 30);
+    rtd = (ang * (pi / 180));
+}
+function setRampedMainTask() {
+    if ((trials2.thisN <= 47)) {
+        ang = ((rotation[0] * (trials2.thisN + 1)) * 0.625);
+    } else {
+        ang = (rotation[0] * 30);
+    }
+    rtd = (ang * (pi / 180));
+}
+function setStepMainTask() {
+    if ((trials2.thisN <= 23)) {
+        ang = (rotation[0] * 7.5);
+    } else {
+        if (((trials2.thisN > 23) && (trials2.thisN <= 47))) {
+            ang = (rotation[0] * 15);
+        } else {
+            if (((trials2.thisN > 47) && (trials2.thisN <= 71))) {
+                ang = (rotation[0] * 22.5);
+            } else {
+                ang = (rotation[0] * 30);
+            }
+        }
+    }
+    rtd = (ang * (pi / 180));
+}
+
+trial3
+Moved win.mouseVisible = False from 'Begin Experiment' to 'Begin Routine'
+
+Put the decision code into functions
+
+trial3CursorCode Begin Experiment:
+NOTE: 'global' keyword is not automatically converted into JS, like trial2
+Here is the JS code if it gets overwritten
+ang = null;
+rtd = null;
+function setAbruptInverseTask() {
+    ang = (rotation[1] * 30);
+    rtd = (ang * (pi / 180));
+}
+function setRampedInverseTask() {
+    if ((trials2.thisN <= 47)) {
+        ang = ((rotation[1] * (trials2.thisN + 1)) * 0.625);
+    } else {
+        ang = (rotation[1] * 30);
+    }
+    rtd = (ang * (pi / 180));
+}
+function setStepInverseTask() {
+    if ((trials2.thisN <= 23)) {
+        ang = (rotation[1] * 7.5);
+    } else {
+        if (((trials2.thisN > 23) && (trials2.thisN <= 47))) {
+            ang = (rotation[1] * 15);
+        } else {
+            if (((trials2.thisN > 47) && (trials2.thisN <= 71))) {
+                ang = (rotation[1] * 22.5);
+            } else {
+                ang = (rotation[1] * 30);
+            }
+        }
+    }
+    rtd = (ang * (pi / 180));
+}
+
+trial4
+
+For all trials:
+targetangle in Begin Routine has been changed to make use of loopCount in the outer loop and a smaller list for the target angles
+
+Additional Notes:
+expInfo['taskVer'] is already a string so no need to convert with str()
+before:
+	taskVer = str(expInfo['taskVer'])
+after:
+	taskVer = expInfo['taskVer']
+
+Issues:
+Boundary detection for cursors: cursor overlaps with target, but stim isnt considered until the actual mouse pointer touches the target.
+
+Data notes:
+trialsType and trialsNum seem to be the same
+
+Housekeeping:
+Remove testing 'print()' statements in Begin Routine in the cursor codes for the final submission
+Remember to take out the <space> to skip
